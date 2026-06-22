@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: python-app
-        image: harbor.local/apps/my-app:v1.0.0 # Кластер заберет его отсюда
+        image: harbor-core.harbor.svc.cluster.local/apps/my-app:v1.0.0
         ports:
         - containerPort: 5000
 ---
