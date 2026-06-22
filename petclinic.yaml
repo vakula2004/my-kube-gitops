@@ -23,8 +23,8 @@ spec:
             memory: "512Mi"
             cpu: "200m"
           limits:
-            memory: "1Gi"    # Java прожорлива к RAM, даем ей лимит до 1ГБ
-            cpu: "500m"
+            memory: "1536Mi"
+            cpu: "800m"
 ---
 apiVersion: v1
 kind: Service
