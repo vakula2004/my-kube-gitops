@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petclinic
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petclinic
+  template:
+    metadata:
+      labels:
+        app: petclinic
+    spec:
+      containers:
+      - name: petclinic
+        image: harbor.local/apps/petclinic:v1.0.0 # Воркеры заберут образ из Харбора
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"    # Java прожорлива к RAM, даем ей лимит до 1ГБ
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: petclinic-service
+  namespace: default
+spec:
+  selector:
+    app: petclinic
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: petclinic-ingress
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: petclinic.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: petclinic-service
+            port:
+              number: 80
