@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: petclinic-monitor
+  namespace: monitoring # Кладем в ту же джобу к Прометею
+  labels:
+    release: kube-prometheus-stack # Эта метка обязательна, чтобы Prometheus увидел этот манифест
+spec:
+  selector:
+    matchLabels:
+      app: petclinic # Ищем наш сервис Petclinic
+  namespaceSelector:
+    matchNamespaces:
+    - default
+  endpoints:
+  - port: http # Перенаправляем на порт сервиса
+    path: /actuator/prometheus # Путь, где лежат метрики
+    interval: 15s
