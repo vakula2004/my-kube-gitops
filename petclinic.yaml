@@ -15,19 +15,23 @@ spec:
     spec:
       containers:
       - name: petclinic
-        image: harbor-core.harbor.svc.cluster.local/apps/petclinic:v1.0.2
-        env:
-      - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-        value: "prometheus,health,info"
-    
+        image: harbor-core.harbor.svc.cluster.local/apps/petclinic:v1.0.0
         ports:
-        - containerPort: 8080
+        - name: http
+          containerPort: 8080
+        env:
+        - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+          value: "prometheus,health,info"
+        - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED
+          value: "true"
+        - name: MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED
+          value: "true"
         resources:
           requests:
             memory: "512Mi"
             cpu: "200m"
           limits:
-            memory: "1536Mi"
+            memory: "1536Mi" # На всякий случай закрепим 1.5ГБ, чтобы Java не падала при инициализации метрик
             cpu: "800m"
 ---
 apiVersion: v1
