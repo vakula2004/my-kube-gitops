@@ -16,6 +16,10 @@ spec:
       containers:
       - name: petclinic
         image: harbor-core.harbor.svc.cluster.local/apps/petclinic:v1.0.2
+        env:
+      - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+        value: "prometheus,health,info"
+    
         ports:
         - containerPort: 8080
         resources:
