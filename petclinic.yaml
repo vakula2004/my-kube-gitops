@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: petclinic
-        image: harbor-core.harbor.svc.cluster.local/apps/petclinic:v1.0.0
+        image: harbor-core.harbor.svc.cluster.local/apps/petclinic:v1.0.1
         ports:
         - name: http
           containerPort: 8080
